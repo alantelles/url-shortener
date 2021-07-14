@@ -7,7 +7,7 @@ url_set = {
 
 class DummyDbAccess(DbAccess):
 
-    def check_short_url(url):
+    def check_short_url(self, url):
         return url_set.get(url)
 
     

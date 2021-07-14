@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, url_for, g
+from flask import render_template, request, redirect, url_for
 
-from app.helpers import set_db_engine
+
 import app.helpers.templates as tp
 import app.services.shortener as shortener
 from app import app
@@ -12,12 +12,11 @@ def index():
     return tp.get_page('index', context)
 
 @app.route('/new', methods=["GET"])
-@set_db_engine
 def new_short_url():
     context = {'base_template': tp.get_layout_path('base')}
     url = request.args.get('short')
     if url:
-        valid_url =  shortener.check_short_url(url, g.db_engine)
+        valid_url =  shortener.check_short_url(url)
         if valid_url:
             return tp.get_page('result', context)
 
