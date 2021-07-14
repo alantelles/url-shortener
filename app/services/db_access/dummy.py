@@ -16,6 +16,12 @@ class DummyDbAccess(DbAccess):
             url_set = json.load(dummy_urls)
 
         short_test = sc.token_urlsafe(5)[:5]
+        is_new = not url_set.get(short_test, False)
+
+        while not is_new:
+            short_test = sc.token_urlsafe(5)[:5]
+            is_new = not url_set.get(short_test, False)
+
         url_set[short_test] = url
 
         with open('app/services/db_access/dummy.json', 'w') as dummy_urls:
