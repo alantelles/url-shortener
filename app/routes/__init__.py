@@ -1,10 +1,8 @@
 from flask import render_template, request, redirect, url_for
 
-
 import app.helpers.templates as tp
 import app.services.shortener as shortener
 from app import app
-
 
 @app.route('/', methods=["GET"])
 def index():
@@ -18,6 +16,8 @@ def new_short_url():
     if url:
         valid_url =  shortener.check_short_url(url)
         if valid_url:
+            context['destination'] = valid_url
+            context['short'] = url
             return tp.get_page('result', context)
 
         return tp.get_page('url_not_found', context)
