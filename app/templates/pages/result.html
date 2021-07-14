@@ -4,7 +4,7 @@
     <h4>Sua URL foi encurtada com sucesso!</h4>    
     <div class="d-flex rounded-3 mt-0 mx-md-5 p-md-5 p-3 flex-column text-start bg-dark text-light">
         <p><strong>URL original: </strong>{{ destination }}</p>
-        <p><strong>URL encurtada: </strong><a href="{{ config['DOMAIN'] }}{{ short }}" target="_blank">{{ config['DOMAIN'] }}{{ short }}</a></p>
+        <p><strong>URL encurtada: </strong><a class="text-light" href="{{ config['DOMAIN'] }}{{ short }}" target="_blank">{{ config['DOMAIN'] }}{{ short }}</a></p>
     </div>
 </div>
 {% endblock %}
