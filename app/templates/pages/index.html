@@ -1,0 +1,12 @@
+{% extends base_template %}
+{% block content %}
+<div class="row mt-5">
+    <h4>Digite uma URL e receba sua versão encurtada</h4>
+    <form action="/new" method="post">
+        <div class="d-flex">
+            <input type="text" id="url" class="form-control">
+            <button class="btn btn-primary">Encur.te!</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
