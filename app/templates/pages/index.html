@@ -2,11 +2,35 @@
 {% block content %}
 <div class="row mt-5">
     <h4>Digite uma URL e receba sua versão encurtada</h4>
-    <form action="/new" method="post">
+    <form id="url-form" action="/new" method="post">
         <div class="d-flex">
             <input type="text" id="url" class="form-control">
-            <button class="btn btn-primary">Encur.te!</button>
+            <button type="button" id="send-url" class="btn btn-primary">Encur.te!</button>
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    const $sendUrl = document.getElementById('send-url')
+    document.getElementById('url-form').addEventListener('submit', function(e) {
+        e.preventDefault()
+        return checkUrlIsValid(e)
+    })
+    function checkUrlIsValid(e) {
+        const $urlField = document.getElementById('url')
+        const urlForTest = $urlField.value.trim()
+        $urlField.value = urlForTest
+        const re = /(http(s*)\:\/\/)?(\w+\.)+\w+(\:\d+)*/
+        const found = urlForTest.search(re)
+        if (found > -1) {
+            const $urlForm = document.getElementById('url-form')
+            $urlForm.submit()
+        }
+        return false
+    }
+    $sendUrl.addEventListener('click', checkUrlIsValid)
+
+</script>
 {% endblock %}

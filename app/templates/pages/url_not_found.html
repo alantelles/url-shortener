@@ -1,10 +1,9 @@
 {% extends base_template %}
 {% block content %}
 <div class="row mt-5">
-    <h4>Sua URL foi encurtada com sucesso!</h4>    
+    <h4>URL não encontrada</h4>    
     <div class="d-flex rounded-3 mt-0 mx-md-5 p-md-5 p-3 flex-column text-start bg-dark text-light">
-        <p><strong>URL original: </strong>{{ destination }}</p>
-        <p><strong>URL encurtada: </strong><a class="text-light" href="{{ config['DOMAIN'] }}{{ short }}" target="_blank">{{ config['DOMAIN'] }}{{ short }}</a></p>
+        <p>Não foi encontrada URL completa correspondente para a URL curta "{{ config['DOMAIN'] }}{{ short }}"</p>
     </div>
     <div class="mt-5">
         <a href="{{ url_for('index') }}"><button class="btn btn-primary">Voltar</button></a>
