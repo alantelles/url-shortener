@@ -27,6 +27,8 @@ def new_short_url():
 
 @app.route('/new', methods=["POST"])
 def save_short_url():
-    
-    short_url = shortener.create_short_url()
-    return redirect(url_for('new_short_url', short=short_url))
+    url = request.form.get('complete_url')
+    short_url = shortener.save_new_url(url)
+
+    if short_url:
+        return redirect(url_for('new_short_url', short=short_url))
