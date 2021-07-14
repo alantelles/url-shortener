@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, url_for
+from werkzeug.exceptions import NotFound
 
 import app.helpers.templates as tp
 import app.services.shortener as shortener
@@ -23,6 +24,10 @@ def new_short_url():
             return tp.get_page('result', context)
 
         return tp.get_page('url_not_found', context)
+    context['header'] = "Requisição inválida"
+    context['message'] = "Não foi enviada uma URL para validação"
+    context['code'] = 400
+    return tp.get_page('error', context)
     
 
 @app.route('/new', methods=["POST"])
@@ -32,3 +37,24 @@ def save_short_url():
 
     if short_url:
         return redirect(url_for('new_short_url', short=short_url))
+
+
+@app.errorhandler(NotFound)
+def handle_not_found_exception(e):
+    context = {
+        'base_template': tp.get_layout_path('base'),
+        'header': "Página não encontrada",
+        'message': "A página requisitada não existe neste site",
+        'code': 404
+    }
+    return tp.get_page('error', context)
+
+@app.errorhandler(Exception)
+def handle_not_found_exception(e):
+    context = {
+        'base_template': tp.get_layout_path('base'),
+        'header': "Erro!",
+        'message': "Algum erro ocorreu. Estamos trabalhando para corrigir o problema.",
+        'code': 500
+    }
+    return tp.get_page('error', context)

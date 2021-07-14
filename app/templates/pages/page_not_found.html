@@ -1,0 +1,12 @@
+{% extends base_template %}
+{% block content %}
+<div class="row mt-5">
+    <h4>Página não encontrada</h4>    
+    <div class="d-flex rounded-3 mt-0 mx-md-5 p-md-5 p-3 flex-column text-start bg-dark text-light">
+        <p>O endereço requisitado não existe neste site.</p>
+    </div>
+    <div class="mt-5">
+        <a href="{{ url_for('index') }}"><button class="btn btn-primary">Voltar</button></a>
+    </div>
+</div>
+{% endblock %}
