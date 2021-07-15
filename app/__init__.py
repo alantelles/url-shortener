@@ -21,5 +21,5 @@ else:
 
 
 app = Flask(__name__)
-app.config['DOMAIN'] = 'https://encur.te/'
+app.config['DOMAIN'] = os.environ.get('DOMAIN', 'http://encur.te/')
 from app.routes import *
