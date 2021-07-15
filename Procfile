@@ -1,1 +1,1 @@
-web: gunicorn -b 0.0.0.0:5000 -w 6 wsgi:app
+web: gunicorn -b 0.0.0.0:$PORT -w 6 wsgi:app
