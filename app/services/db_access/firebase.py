@@ -1,5 +1,5 @@
 import secrets as sc
-import os
+import os, traceback
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -10,25 +10,24 @@ import app.helpers as helpers
 
 class FireBaseDbAccess(DbAccess):
 
-    @staticmethod
-    def get_database():
+    def __init__(self):
+
         firestore_key = os.environ.get('FIRESTORE_KEY')
         if firestore_key:
             cred = credentials.Certificate(os.environ.get('FIRESTORE_KEY'))
-            firebase_admin.initialize_app(cred)
+            fb_app = firebase_admin.initialize_app(cred)
 
         else:
             cred = credentials.ApplicationDefault()
             projectId = os.environ.get('GOOGLE_CLOUD_PROJECT')
-            firebase_admin.initialize_app(cred, {'projectId': projectId})
+            fb_app = firebase_admin.initialize_app(cred, {'projectId': projectId})
 
         database = firestore.client()
-        return database
+        self.db = database
+        self.fb_app = fb_app
 
     
-    def save_new_url(self, complete_url):
-
-        database = FireBaseDbAccess.get_db()
+    def save_new_url(self, complete_url):        
 
         short_test = helpers.create_short_url()        
         is_new = not self.check_short_url(short_test)        
@@ -36,7 +35,7 @@ class FireBaseDbAccess(DbAccess):
             short_test = helpers.create_short_url()            
             is_new = not self.check_short_url(short_test)
         
-        url_ref = database.collection('short_urls')
+        url_ref = self.db.collection('short_urls').document()
         url_ref.set({
             'short_url': short_test,
             'complete_url': complete_url
@@ -46,9 +45,12 @@ class FireBaseDbAccess(DbAccess):
 
     
     def check_short_url(self, short_url):
-        database = FireBaseDbAccess.get_db()
-        urls_ref = database.collection('short_urls').where('short_url', '==', short_url).stream()
-        if len(urls_ref) > 0:
-            to_dict = urls_ref[0].to_dict()
+        
+        urls_ref = self.db.collection('short_urls').where('short_url', '==', short_url).stream()
+        first = next(urls_ref, None)
+        if first:
+            to_dict = first.to_dict()
             return to_dict['complete_url']
+        
+
 

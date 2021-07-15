@@ -1,3 +1,4 @@
+import traceback
 from flask import render_template, request, redirect, url_for
 from werkzeug.exceptions import NotFound
 
@@ -51,6 +52,7 @@ def handle_not_found_exception(e):
 
 @app.errorhandler(Exception)
 def handle_not_found_exception(e):
+    traceback.print_exc()
     context = {
         'base_template': tp.get_layout_path('base'),
         'header': "Erro!",
