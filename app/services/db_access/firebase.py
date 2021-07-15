@@ -5,6 +5,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 from app.services.db_access import DbAccess
+import app.helpers as helpers
 
 
 class FireBaseDbAccess(DbAccess):
@@ -29,10 +30,10 @@ class FireBaseDbAccess(DbAccess):
 
         database = FireBaseDbAccess.get_db()
 
-        short_test = sc.token_urlsafe(5)[:5]        
+        short_test = helpers.create_short_url()        
         is_new = not self.check_short_url(short_test)        
         while not is_new:
-            short_test = sc.token_urlsafe(5)[:5]
+            short_test = helpers.create_short_url()            
             is_new = not self.check_short_url(short_test)
         
         url_ref = database.collection('short_urls')
