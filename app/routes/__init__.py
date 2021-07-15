@@ -39,7 +39,7 @@ def save_short_url():
     if short_url:
         return redirect(url_for('new_short_url', short=short_url))
 
-@app.route('/errors/<err_type>', default={'err_type': 'error'}, methods=["GET"])
+@app.route('/errors/<err_type>', defaults={'err_type': 'error'}, methods=["GET"])
 def show_error_page(err_type):
     context = {'base_template': tp.get_layout_path('base')}
     if err_type == 'not_found':
