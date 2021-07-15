@@ -38,7 +38,8 @@ class FireBaseDbAccess(DbAccess):
         url_ref = self.db.collection('short_urls').document()
         url_ref.set({
             'short_url': short_test,
-            'complete_url': complete_url
+            'complete_url': complete_url,
+            'created_at': firestore.SERVER_TIMESTAMP
         })
 
         return short_test
