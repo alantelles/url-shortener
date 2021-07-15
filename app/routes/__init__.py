@@ -39,6 +39,26 @@ def save_short_url():
     if short_url:
         return redirect(url_for('new_short_url', short=short_url))
 
+@app.route('/errors/<err_type>', default={'err_type': 'error'}, methods=["GET"])
+def show_error_page(err_type):
+    context = {'base_template': tp.get_layout_path('base')}
+    if err_type == 'not_found':
+        context['header'] = 'URL encurtada não existe'
+        context['message'] = 'A URL encurtada dada não está nos nossos registros'
+        context['code'] = 404
+
+    elif err_type == 'page_not_found':
+        context['header'] = "Página não encontrada",
+        context['message'] = "A página requisitada não existe neste site",
+        context['code'] = 404
+
+    else:
+        context['header'] = "Erro!",
+        context['message'] = "Algum erro ocorreu. Estamos trabalhando na solução do problema",
+        context['code'] = 500
+
+    
+    return tp.get_page('error', context)
 
 @app.errorhandler(NotFound)
 def handle_not_found_exception(e):
